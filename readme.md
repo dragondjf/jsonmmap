@@ -89,6 +89,7 @@ python 基于mmap模块的jsonmmap实现本地多进程内存共享
         
         #!/usr/bin/python
         # -*- coding: utf-8 -*-
+        import mmap
         from jsonmmap import ObjectMmap
         import random
 
