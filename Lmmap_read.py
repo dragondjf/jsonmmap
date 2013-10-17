@@ -7,9 +7,15 @@ from jsonmmap import ObjectMmap
 
 def main():
     mm = ObjectMmap(-1, 1024*1024, access=mmap.ACCESS_READ, tagname='share_mmap')
+    count = 0
     while True:
-        print '*' * 30
-        print mm.jsonread_follower()
+        obj = mm.jsonread_follower()
+        if obj:
+        	print '*' * 15 + str(count) + '*' * 15
+        	print obj
+        	count += 1
+        else:
+        	pass
 
 if __name__ == '__main__':
     main()

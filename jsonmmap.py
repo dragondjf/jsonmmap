@@ -13,6 +13,7 @@ class ObjectMmap(mmap.mmap):
         self.tagname = tagname
 
     def jsonwrite(self, obj):
+        self.obj = obj
         self.seek(0)
         obj_str = json.dumps(obj)
         obj_len = len(obj_str)
@@ -23,19 +24,33 @@ class ObjectMmap(mmap.mmap):
         self.contentlength = self.contentend - self.contentbegin
 
     def jsonread_master(self):
-        self.seek(self.contentbegin)
-        content = self.read(self.contentlength)
-        obj = json.loads(content)
-        return obj
+        try:
+            self.seek(self.contentbegin)
+            content = self.read(self.contentlength)
+            obj = json.loads(content)
+            self.obj = obj
+            return obj
+        except Exception, e:
+            if self.obj:
+                return self.obj
+            else:
+                return None
 
     def jsonread_follower(self):
-        self.seek(0)
-        index = self.find(":")
-        if index != -1:
-            head = self.read(index + 1)
-            contentlength = int(head[:-1])
-            content = self.read(contentlength)
-            obj = json.loads(content)
-            return obj
-        else:
-            return None
+        try:
+            self.seek(0)
+            index = self.find(":")
+            if index != -1:
+                head = self.read(index + 1)
+                contentlength = int(head[:-1])
+                content = self.read(contentlength)
+                obj = json.loads(content)
+                self.obj = obj
+                return obj
+            else:
+                return None
+        except Exception, e:
+            if self.obj:
+                return self.obj
+            else:
+                return None
