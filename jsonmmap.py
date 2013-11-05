@@ -35,7 +35,7 @@ class ObjectMmap(mmap.mmap):
             self.obj = obj
             return obj
         except Exception, e:
-            if hasattr(self, obj):
+            if hasattr(self, "obj"):
                 return self.obj
             else:
                 return None
@@ -54,7 +54,7 @@ class ObjectMmap(mmap.mmap):
             else:
                 return None
         except Exception, e:
-            if hasattr(self, obj):
+            if hasattr(self, "obj"):
                 return self.obj
             else:
                 return None
