@@ -6,7 +6,7 @@ from jsonmmap import ObjectMmap
 
 
 def main():
-    mm = ObjectMmap(-1, 1024*1024, access=mmap.ACCESS_READ, tagname='share_mmap')
+    mm = ObjectMmap(-1, 1024*1024, access=mmap.ACCESS_WRITE, tagname='share_mmap')
     count = 0
     while True:
         obj = mm.jsonread_follower()
@@ -16,6 +16,7 @@ def main():
         	count += 1
         else:
         	pass
+        time.sleep(1)
 
 if __name__ == '__main__':
     main()
